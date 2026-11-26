@@ -1,0 +1,10 @@
+import PEqualNP.Defs
+
+theorem PEqualNP.Outside.R_meta_18383_65
+    (caseA : ∀ (x1 : Fin (26 : ℕ)) (x2 : PEqualNP.CircuitLowerBounds.Circuit), (PEqualNP.MetaComplexity.NestedCover.gateAt x2 (0 : ℕ)).op = PEqualNP.CircuitLowerBounds.GateOp.and → x1 = (0 : Fin (26 : ℕ)) ∨ x1 = (13 : Fin (26 : ℕ)) → PEqualNP.TopForm.IsAO2 (26 : ℕ) x2 → (∀ (x5 : Fin (26 : ℕ) → Bool), x2.eval (List.ofFn x5) = Bool.true ↔ ∃ (x6 : Fin (13 : ℕ)) (x7 : Fin (13 : ℕ)), (x6 = x7 ∨ x6 = x7 + (1 : Fin (13 : ℕ)) ∨ x6 = x7 + (3 : Fin (13 : ℕ)) ∨ x6 = x7 + (9 : Fin (13 : ℕ))) ∧ Fin.castAdd (13 : ℕ) x6 ≠ x1 ∧ Fin.natAdd (13 : ℕ) x7 ≠ x1 ∧ x5 (Fin.castAdd (13 : ℕ) x6) = Bool.true ∧ x5 (Fin.natAdd (13 : ℕ) x7) = Bool.true) → (59 : ℕ) ≤ x2.size)
+    (caseB : ∀ (x1 : Fin (26 : ℕ)) (x2 : PEqualNP.CircuitLowerBounds.Circuit), ¬(PEqualNP.MetaComplexity.NestedCover.gateAt x2 (0 : ℕ)).op = PEqualNP.CircuitLowerBounds.GateOp.and → x1 = (0 : Fin (26 : ℕ)) ∨ x1 = (13 : Fin (26 : ℕ)) → PEqualNP.TopForm.IsAO2 (26 : ℕ) x2 → (∀ (x5 : Fin (26 : ℕ) → Bool), x2.eval (List.ofFn x5) = Bool.true ↔ ∃ (x6 : Fin (13 : ℕ)) (x7 : Fin (13 : ℕ)), (x6 = x7 ∨ x6 = x7 + (1 : Fin (13 : ℕ)) ∨ x6 = x7 + (3 : Fin (13 : ℕ)) ∨ x6 = x7 + (9 : Fin (13 : ℕ))) ∧ Fin.castAdd (13 : ℕ) x6 ≠ x1 ∧ Fin.natAdd (13 : ℕ) x7 ≠ x1 ∧ x5 (Fin.castAdd (13 : ℕ) x6) = Bool.true ∧ x5 (Fin.natAdd (13 : ℕ) x7) = Bool.true) → (59 : ℕ) ≤ x2.size) :
+    ∀ (x1 : Fin (26 : ℕ)) (x2 : PEqualNP.CircuitLowerBounds.Circuit), x1 = (0 : Fin (26 : ℕ)) ∨ x1 = (13 : Fin (26 : ℕ)) → PEqualNP.TopForm.IsAO2 (26 : ℕ) x2 → (∀ (x5 : Fin (26 : ℕ) → Bool), x2.eval (List.ofFn x5) = Bool.true ↔ ∃ (x6 : Fin (13 : ℕ)) (x7 : Fin (13 : ℕ)), (x6 = x7 ∨ x6 = x7 + (1 : Fin (13 : ℕ)) ∨ x6 = x7 + (3 : Fin (13 : ℕ)) ∨ x6 = x7 + (9 : Fin (13 : ℕ))) ∧ Fin.castAdd (13 : ℕ) x6 ≠ x1 ∧ Fin.natAdd (13 : ℕ) x7 ≠ x1 ∧ x5 (Fin.castAdd (13 : ℕ) x6) = Bool.true ∧ x5 (Fin.natAdd (13 : ℕ) x7) = Bool.true) → (59 : ℕ) ≤ x2.size := by
+  intro x1 x2
+  by_cases h : (PEqualNP.MetaComplexity.NestedCover.gateAt x2 (0 : ℕ)).op = PEqualNP.CircuitLowerBounds.GateOp.and
+  · exact @caseA x1 x2 h
+  · exact @caseB x1 x2 h
