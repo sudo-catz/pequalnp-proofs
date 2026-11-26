@@ -1,0 +1,57 @@
+name: lean-build
+on:
+  workflow_dispatch:
+    inputs:
+      module:
+        description: Lean module to build, e.g. PEqualNP.Outside.L_meta_17118
+        required: true
+        default: PEqualNP.Defs
+permissions:
+  contents: read
+concurrency:
+  group: lean-${{ github.ref }}-${{ inputs.module }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/share/boost "$AGENT_TOOLSDIRECTORY" 2>/dev/null || true
+          df -h /
+      - name: install elan
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: restore lake cache
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.elan/toolchains
+            lean/.lake
+          key: lake-v1-${{ hashFiles('lean/lean-toolchain', 'lean/lake-manifest.json') }}
+      - name: mathlib cache
+        if: steps.cache.outputs.cache-hit != 'true'
+        working-directory: lean
+        run: |
+          lake --version
+          lake exe cache get
+      - name: build module
+        working-directory: lean
+        env:
+          MODULE: ${{ inputs.module }}
+        run: |
+          set -o pipefail
+          date -u
+          lake build "$MODULE" 2>&1 | tee ../build.log
+      - name: result
+        if: always()
+        run: |
+          echo "=== last lines ==="
+          tail -40 build.log 2>/dev/null || true
+          df -h /
